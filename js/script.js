@@ -37,8 +37,6 @@ guessedButton .addEventListener("click", function (e) {
     textInput.value = ""; 
 });
 
-
-
 //Player's input
 const playersInput = function(input){
     const acceptedLetter = /[a-zAZ]/;
@@ -63,5 +61,39 @@ const makeGuess = function(guess){
     } else {
         guessedLetters.push(guess);
         console.log(guessedLetters);
+        guessWord();
+        updateWordInProgress(guessLetters);
     }
 };
+//show guess letters 
+const guessWord = function () {
+    guessedLetter.innerHTML = "";
+    for(let letter of guessedLetters) {
+        const li = document.createElement("li");
+        li.innerText = letter;
+        guessedLetter.append(li);
+    }
+};
+//update the word in progress
+const updateWordInProgress = function(guessedLetters){
+    const wordUpper = word.toUpperCase();
+    const wordArray = wordUpper.split(" ");
+    const wordReveal = [];
+    for(let letter of wordArray){
+     if(guessedLetters.includes(letter)) {
+         wordReveal.push(letter.toUpperCase);
+     } else {
+         wordReveal.push("●");
+     }
+    }
+    wordInProgress.innerText = wordReveal.join(" ");
+playerWon();
+};
+//checking if player won
+const playerWon = function () {
+    if(word.toUpperCase() === wordInProgress.innerText){
+        messageAppear.classList.add("win");
+        messageAppear.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>;`
+    }
+};
+
