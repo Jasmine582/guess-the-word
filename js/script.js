@@ -10,7 +10,7 @@ const playAgain = document.querySelector(".play-again");
 //tested word for game
 let word = "magnolia"; // change from const to let for different words
 let guessedLetters = [];
-let remainingGuesses = 5;
+let remainingGuesses = 8;
 
 const getWord = async function () {
  const newWord = await fetch ("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
@@ -140,7 +140,7 @@ const startOver = function () {
 
 playAgain.addEventListener("click", function(){
     messageAppear.classList.remove("win");
-    remainingGuesses = 5;
+    remainingGuesses = 8;
     guessedLetters = [];
     remainderGuessSpan.innerText = `${remainingGuesses} guesses`;
     guessedLetterE.innerHTML = "";
