@@ -2,15 +2,15 @@ const guessedLetterE = document.querySelector(".guessed-letters");
 const guessedButton = document.querySelector(".guess");
 const textInput = document.querySelector(".letter");
 const wordInProgress = document.querySelector(".word-in-progress");
-const remainderGuess = document.querySelector(".remaining");
+const remainderGuessE = document.querySelector(".remaining");
 const remainderGuessSpan = document.querySelector(".remaining span");
 const messageAppear = document.querySelector(".message");
 const playAgain = document.querySelector(".play-again");
 
 //tested word for game
 let word = "magnolia"; // change from const to let for different words
-const guessedLetters = [];
-let remainingGuesses = 8;
+let guessedLetters = [];
+let remainingGuesses = 5;
 
 const getWord = async function () {
  const newWord = await fetch ("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
@@ -20,6 +20,7 @@ const getWord = async function () {
   word = wordArray[randomIndex].trim();
  placeholder(word);
 };
+
 getWord();
 
 
@@ -36,6 +37,8 @@ const placeholder = function (word) {
 
 guessedButton.addEventListener("click", function (e) {
     e.preventDefault();
+
+    messageAppear.innerText = "";
 
     const guess = textInput.value;
 
@@ -65,14 +68,14 @@ const makeGuess = function (guess){
     if(guessedLetters.includes(guess)) {
         messageAppear.innerText = "Letter has already been guessed, Try again."
     } else {
-        guessedLetters.push(guess);
+        guessedLetters.push(guess)
         guessRemain(guess);
        showLetters();
        updateWord (guessedLetters);
     }
 };
 
-const showLetters = function(){
+const showLetters = function () {
     guessedLetterE.innerHTML = "";
     for ( const letter of guessedLetters) {
         const li = document.createElement("li");
@@ -109,6 +112,7 @@ const guessRemain = function (guess) {
 
     if(remainingGuesses === 0) {
         messageAppear.innerHTML = `Game Over! The word was <span class = "highlight">${word}</span>`;
+        startOver();
     } else if (remainingGuesses === 1) {
         remainderGuessSpan.innerText = `${remainingGuesses} guess`;
     } else {
@@ -117,10 +121,36 @@ const guessRemain = function (guess) {
 };
 
 //checking for a winner
-const checkIfWinner = function(){
+const checkIfWinner = function () {
     if(word.toUpperCase() === wordInProgress.innerText) {
         messageAppear.classList.add("win");
         messageAppear.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
+
+        startOver();
     }
 };
+
+//start the game over
+const startOver = function () {
+    guessedButton.classList.add("hide");
+    remainderGuessE.classList.add("hide");
+    guessedLetterE.classList.add("hide");
+    playAgain.classList.remove("hide");
+};
+
+playAgain.addEventListener("click", function(){
+    messageAppear.classList.remove("win");
+    remainingGuesses = 5;
+    guessedLetters = [];
+    remainderGuessSpan.innerText = `${remainingGuesses} guesses`;
+    guessedLetterE.innerHTML = "";
+    messageAppear.innerText = "";
+
+    getWord();
+
+    guessedButton.classList.remove("hide");
+    playAgain.classList.add("hide");
+    guessedLetterE.classList.remove("hide");
+    remainderGuessE.classList.remove("hide");
+});
 
