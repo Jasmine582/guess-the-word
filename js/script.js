@@ -7,8 +7,8 @@ const remainderGuessSpan = document.querySelector(".remaining span");
 const messageAppear = document.querySelector(".message");
 const playAgain = document.querySelector(".play-again");
 
-//tested word for game
-let word = "magnolia"; // change from const to let for different words
+
+let word = "magnolia"; 
 let guessedLetters = [];
 let remainingGuesses = 8;
 
@@ -25,11 +25,9 @@ getWord();
 
 
 
-//Placeholder for chosen letter and symbols
 const placeholder = function (word) {
     const placeLetters = [];
    for (const letter of word)  {
-    //    console.log(letter);
        placeLetters.push("●");
    }
    wordInProgress.innerText = placeLetters.join("");
@@ -99,7 +97,7 @@ const updateWord = function (guessedLetters){
     checkIfWinner();
 };
 
-//count guesses remain
+
 const guessRemain = function (guess) {
     const upWord = word.toUpperCase();
     if( !upWord.includes(guess)) {
@@ -120,7 +118,7 @@ const guessRemain = function (guess) {
     }
 };
 
-//checking for a winner
+
 const checkIfWinner = function () {
     if(word.toUpperCase() === wordInProgress.innerText) {
         messageAppear.classList.add("win");
@@ -130,7 +128,7 @@ const checkIfWinner = function () {
     }
 };
 
-//start the game over
+
 const startOver = function () {
     guessedButton.classList.add("hide");
     remainderGuessE.classList.add("hide");
